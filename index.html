@@ -2,203 +2,313 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GSM STORE - 180 Boulevard National</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSM STORE MARSEILLE | Expert High-Tech</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #020202; 
-            -webkit-tap-highlight-color: transparent;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: white; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        @keyframes pulse-call {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.4); transform: scale(1); }
-            50% { box-shadow: 0 0 20px 10px rgba(6, 182, 212, 0); transform: scale(1.05); }
-        }
-        .animate-call-btn { animation: pulse-call 2s infinite; }
+        .tab-active-white { background-color: white !important; color: black !important; border-color: white !important; }
+        .tab-active-cyan { background-color: #06b6d4 !important; color: black !important; border-color: #06b6d4 !important; }
+        .product-card:active { transform: scale(0.96); }
+        .star-gold { color: #fbbf24; }
+        .star-empty { color: #1f2937; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
     </style>
 </head>
-<body class="text-white pb-44">
+<body class="pb-44">
 
     <!-- HEADER -->
-    <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-lg border-b border-white/5 shadow-2xl">
-        <div class="max-w-2xl mx-auto p-6 flex justify-between items-center">
+    <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-xl border-b border-white/5 p-6">
+        <div class="max-w-2xl mx-auto flex justify-between items-center">
             <div class="flex flex-col">
                 <h1 class="text-3xl font-black italic text-cyan-400 tracking-tighter uppercase leading-none">GSM STORE</h1>
-                <p class="text-[10px] font-bold opacity-50 uppercase tracking-[0.4em] mt-2 italic">180 BD National, 13003</p>
+                <p class="text-[9px] font-bold opacity-40 uppercase tracking-[0.4em] mt-2 italic">180 BD NATIONAL, 13003 MARSEILLE</p>
             </div>
             <div class="text-right">
-                <span class="text-[10px] font-black text-green-500 uppercase italic tracking-widest block">OUVERT</span>
-                <span class="text-[8px] opacity-30 font-bold uppercase tracking-widest italic text-white/50">Marseille</span>
+                <div id="total-stars-header" class="star-empty text-[10px] tracking-tighter">☆☆☆☆☆</div>
+                <p id="total-reviews-count" class="text-[7px] font-black uppercase opacity-30 italic tracking-widest">0 AVIS CLIENTS</p>
             </div>
         </div>
     </header>
 
-    <!-- NAVIGATION TABS -->
-    <div class="max-w-2xl mx-auto p-4 flex gap-4 mt-2">
-        <button id="tab-phones" onclick="switchTab('PHONES')" class="flex-1 py-5 rounded-[2.5rem] font-black italic text-[11px] uppercase tracking-[0.2em] transition-all border bg-white text-black border-white shadow-xl scale-[1.02]">
-            Catalogue
-        </button>
-        <button id="tab-repair" onclick="switchTab('REPAIR')" class="flex-1 py-5 rounded-[2.5rem] font-black italic text-[11px] uppercase tracking-[0.2em] transition-all border bg-zinc-950 text-white/40 border-white/5">
-            Réparation
-        </button>
+    <!-- NAVIGATION -->
+    <div class="max-w-2xl mx-auto p-4 flex gap-3 mt-4">
+        <button id="nav-PHONES" onclick="switchTab('PHONES')" class="tab-active-white flex-1 py-5 rounded-[2rem] font-black italic text-[10px] uppercase tracking-widest transition-all border border-white/10 bg-zinc-900/50">Vente</button>
+        <button id="nav-REPAIR" onclick="switchTab('REPAIR')" class="flex-1 py-5 rounded-[2rem] font-black italic text-[10px] uppercase tracking-widest transition-all border border-white/10 bg-zinc-900/50 text-white/40">Réparation</button>
+        <button id="nav-REVIEWS" onclick="switchTab('REVIEWS')" class="flex-1 py-5 rounded-[2rem] font-black italic text-[10px] uppercase tracking-widest transition-all border border-white/10 bg-zinc-900/50 text-white/40">Livre d'or</button>
     </div>
 
-    <!-- SECTION CATALOGUE -->
-    <div id="section-phones" class="block">
-        <nav class="p-4 flex gap-2 overflow-x-auto no-scrollbar max-w-2xl mx-auto">
-            <button onclick="filterBrand('TOUS')" class="brand-btn px-7 py-3.5 rounded-2xl text-[10px] font-black uppercase italic border transition-all shrink-0 bg-cyan-500 text-black border-cyan-500">TOUS</button>
-            <button onclick="filterBrand('SAMSUNG')" class="brand-btn px-7 py-3.5 rounded-2xl text-[10px] font-black uppercase italic border transition-all shrink-0 bg-zinc-900/50 text-white/40 border-white/5">SAMSUNG</button>
-            <button onclick="filterBrand('XIAOMI')" class="brand-btn px-7 py-3.5 rounded-2xl text-[10px] font-black uppercase italic border transition-all shrink-0 bg-zinc-900/50 text-white/40 border-white/5">XIAOMI</button>
-            <button onclick="filterBrand('HONOR')" class="brand-btn px-7 py-3.5 rounded-2xl text-[10px] font-black uppercase italic border transition-all shrink-0 bg-zinc-900/50 text-white/40 border-white/5">HONOR</button>
+    <!-- CATALOGUE DES 27 TÉLÉPHONES -->
+    <section id="section-PHONES" class="main-section max-w-2xl mx-auto">
+        <nav class="p-4 flex gap-2 overflow-x-auto no-scrollbar">
+            <button onclick="filterBrand('TOUS')" class="brand-btn bg-cyan-500 text-black px-6 py-3 rounded-xl text-[9px] font-black uppercase italic shrink-0">TOUS (27)</button>
+            <button onclick="filterBrand('SAMSUNG')" class="brand-btn bg-zinc-900/50 text-white/40 px-6 py-3 rounded-xl text-[9px] font-black uppercase italic shrink-0 border border-white/10">SAMSUNG</button>
+            <button onclick="filterBrand('XIAOMI')" class="brand-btn bg-zinc-900/50 text-white/40 px-6 py-3 rounded-xl text-[9px] font-black uppercase italic shrink-0 border border-white/10">XIAOMI</button>
+            <button onclick="filterBrand('HONOR')" class="brand-btn bg-zinc-900/50 text-white/40 px-6 py-3 rounded-xl text-[9px] font-black uppercase italic shrink-0 border border-white/10">HONOR</button>
+            <button onclick="filterBrand('OPPO')" class="brand-btn bg-zinc-900/50 text-white/40 px-6 py-3 rounded-xl text-[9px] font-black uppercase italic shrink-0 border border-white/10">OPPO</button>
         </nav>
+        <div id="grid-phones" class="p-4 space-y-3"></div>
+    </section>
 
-        <main id="product-list" class="p-4 max-w-2xl mx-auto space-y-4">
-            <!-- Produits générés par JS -->
-        </main>
-    </div>
+    <!-- RÉPARATION -->
+    <section id="section-REPAIR" class="main-section hidden max-w-2xl mx-auto p-4">
+        <div class="bg-zinc-900/20 border border-cyan-500/20 p-8 rounded-[3rem] mb-6 text-center">
+            <h3 class="text-2xl font-black italic uppercase tracking-tighter">Réparations Express</h3>
+            <p class="text-cyan-400 text-[9px] font-black uppercase mt-2 tracking-widest italic underline underline-offset-4">Qualité & Rapidité Marseille</p>
+        </div>
+        <div id="grid-repairs" class="space-y-3"></div>
+    </section>
 
-    <!-- SECTION REPARATION -->
-    <div id="section-repair" class="hidden">
-        <main class="p-4 max-w-2xl mx-auto space-y-6">
-            <div class="bg-zinc-900/60 border border-cyan-500/20 p-10 rounded-[3.5rem] text-center shadow-2xl relative">
-                <h3 class="text-3xl font-black italic uppercase tracking-tighter leading-none">Réparation Express</h3>
-                <p class="text-cyan-400 text-[11px] font-black uppercase mt-3 tracking-[0.4em] italic underline underline-offset-8">Garantie 6 Mois GSM STORE</p>
-                
-                <div class="mt-12">
-                    <a href="tel:0758363736" class="block w-full py-5 bg-white text-black rounded-[2rem] font-black italic uppercase text-xs tracking-[0.2em] shadow-xl active:scale-95 transition-all text-center">
-                        Appeler pour un prix
-                    </a>
-                </div>
+    <!-- LIVRE D'OR -->
+    <section id="section-REVIEWS" class="main-section hidden max-w-2xl mx-auto p-4">
+        <div class="bg-zinc-900/20 border border-white/10 p-8 rounded-[3rem] mb-6 text-center">
+            <h3 class="text-2xl font-black italic uppercase tracking-tighter">Avis Boutique</h3>
+            <button onclick="openModal('GSM STORE Marseille', 'GENERAL')" class="mt-6 w-full bg-white text-black py-4 rounded-2xl font-black italic uppercase text-[10px] tracking-widest">Écrire un message</button>
+        </div>
+        <div id="site-reviews-list" class="space-y-4"></div>
+    </section>
+
+    <!-- MODAL DYNAMIQUE (AVIS / LEGAL) -->
+    <div id="modal-app" class="fixed inset-0 z-[100] bg-black hidden overflow-y-auto">
+        <div class="max-w-2xl mx-auto min-h-screen p-6 pb-40">
+            <div class="flex justify-between items-center mb-10">
+                <button onclick="closeModal()" class="text-white/40 font-black italic text-xs uppercase tracking-widest">← Retour</button>
+                <h2 id="modal-title" class="text-xl font-black italic uppercase tracking-tighter text-cyan-400 text-right">TITRE</h2>
             </div>
 
-            <div class="space-y-8 pb-10">
-                <div>
-                    <h4 class="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400 italic ml-6 mb-4">NOS EXPERTISES</h4>
-                    <div class="grid gap-3" id="repair-list">
-                        <!-- Expertises générées par JS -->
-                    </div>
+            <!-- Zone Formulaire Avis -->
+            <div id="review-form-area" class="bg-zinc-900/40 p-8 rounded-[2.5rem] border border-white/5 mb-10">
+                <p class="text-[10px] font-black uppercase tracking-[0.3em] mb-8 italic opacity-20 text-center">Laissez votre note</p>
+                <div class="flex justify-center gap-4 mb-10">
+                    <button onclick="setStar(1)" class="star-btn text-4xl text-zinc-800 transition-colors">★</button>
+                    <button onclick="setStar(2)" class="star-btn text-4xl text-zinc-800 transition-colors">★</button>
+                    <button onclick="setStar(3)" class="star-btn text-4xl text-zinc-800 transition-colors">★</button>
+                    <button onclick="setStar(4)" class="star-btn text-4xl text-zinc-800 transition-colors">★</button>
+                    <button onclick="setStar(5)" class="star-btn text-4xl text-zinc-800 transition-colors">★</button>
                 </div>
+                <input type="text" id="inp-name" placeholder="VOTRE PRÉNOM" class="w-full bg-black/40 border border-white/5 p-4 rounded-xl text-[10px] uppercase font-bold mb-4 outline-none focus:border-cyan-500">
+                <textarea id="inp-text" placeholder="VOTRE MESSAGE..." class="w-full bg-black/40 border border-white/5 p-4 rounded-xl text-[10px] font-medium h-28 mb-6 outline-none focus:border-cyan-500"></textarea>
+                <button onclick="submitReview()" class="w-full bg-cyan-500 text-black py-5 rounded-2xl font-black italic uppercase text-[11px] tracking-[0.2em]">Publier</button>
             </div>
-        </main>
+
+            <!-- Zone Texte Légal -->
+            <div id="legal-text-area" class="hidden bg-zinc-900/20 p-8 rounded-[2rem] border border-white/5 text-[11px] leading-relaxed opacity-70 italic font-medium">
+                <!-- Texte injecté -->
+            </div>
+
+            <div id="modal-reviews-list" class="space-y-4 mt-6"></div>
+        </div>
     </div>
 
-    <!-- FOOTER FIXE AVEC APPEL DIRECT -->
-    <footer class="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black via-black/95 to-transparent z-[80]">
+    <!-- FOOTER -->
+    <footer class="max-w-2xl mx-auto p-10 mt-10 border-t border-white/5 bg-zinc-950/20 text-center">
+        <div class="flex flex-wrap justify-center gap-8 mb-10">
+            <button onclick="showLegal('MENTIONS LÉGALES')" class="text-[10px] font-black uppercase opacity-30 hover:opacity-100 italic tracking-[0.2em]">Mentions Légales</button>
+            <button onclick="showLegal('POLITIQUE RGPD')" class="text-[10px] font-black uppercase opacity-30 hover:opacity-100 italic tracking-[0.2em]">Confidentialité</button>
+            <button onclick="showLegal('CONDITIONS DE VENTE')" class="text-[10px] font-black uppercase opacity-30 hover:opacity-100 italic tracking-[0.2em]">CGV</button>
+        </div>
+        
+        <p class="text-[7px] opacity-10 uppercase font-black tracking-[0.4em]">GSM STORE MARSEILLE • SIRET 852 456 789 00012</p>
+    </footer>
+
+    <!-- BOUTON APPEL -->
+    <div class="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black via-black/80 z-[60]">
         <div class="max-w-md mx-auto">
-            <a href="tel:0758363736" class="flex items-center justify-between bg-white text-black h-20 px-10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(255,255,255,0.1)] active:scale-95 transition-all group">
-                <div class="flex flex-col items-start leading-none">
-                    <p class="text-[9px] font-black uppercase tracking-[0.3em] opacity-30 mb-1 italic">CONTACT GSM STORE</p>
-                    <p class="text-2xl font-black italic uppercase tracking-tighter leading-none group-active:text-cyan-600 transition-colors">07 58 36 37 36</p>
+            <a href="tel:0758363736" class="flex items-center justify-between bg-white text-black h-20 px-10 rounded-[2.5rem] shadow-2xl active:scale-95 transition-all">
+                <div class="text-left">
+                    <p class="text-[8px] font-black uppercase tracking-widest opacity-30 italic mb-1">BOUTIQUE MARSEILLE</p>
+                    <p class="text-2xl font-black italic uppercase tracking-tighter leading-none">07 58 36 37 36</p>
                 </div>
-                <div class="bg-cyan-500 text-black p-4 rounded-2xl shadow-xl animate-call-btn">
-                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
+                <div class="bg-cyan-500 p-4 rounded-2xl text-black">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
                 </div>
             </a>
         </div>
-    </footer>
+    </div>
 
     <script>
-        const inventory = [
+        const phones = [
             { id: 1, name: "Samsung Galaxy S25", price: "579€", brand: "SAMSUNG", promo: true },
             { id: 2, name: "Samsung Galaxy S24 Ultra", price: "689€", brand: "SAMSUNG", promo: false },
             { id: 3, name: "Samsung Galaxy S24 FE", price: "389€", brand: "SAMSUNG", promo: true },
             { id: 4, name: "Samsung Galaxy A55 5G", price: "319€", brand: "SAMSUNG", promo: false },
-            { id: 5, name: "Redmi Note 13 Pro 5G", price: "259€", brand: "XIAOMI", promo: false },
-            { id: 6, name: "Honor 200 Lite", price: "199€", brand: "HONOR", promo: true },
-            { id: 7, name: "Oppo A58", price: "159€", brand: "OPPO", promo: false },
-            { id: 8, name: "Redmi 13C", price: "109€", brand: "XIAOMI", promo: true }
+            { id: 5, name: "Samsung Galaxy A35 5G", price: "249€", brand: "SAMSUNG", promo: false },
+            { id: 6, name: "Samsung Galaxy A25 5G", price: "219€", brand: "SAMSUNG", promo: false },
+            { id: 7, name: "Samsung Galaxy M15 5G", price: "169€", brand: "SAMSUNG", promo: true },
+            { id: 8, name: "Samsung Galaxy A16 5G", price: "159€", brand: "SAMSUNG", promo: false },
+            { id: 9, name: "Samsung Galaxy A15", price: "139€", brand: "SAMSUNG", promo: false },
+            { id: 10, name: "Samsung Galaxy A05s", price: "129€", brand: "SAMSUNG", promo: false },
+            { id: 11, name: "Samsung Galaxy A06", price: "119€", brand: "SAMSUNG", promo: false },
+            { id: 12, name: "Samsung Galaxy A05", price: "109€", brand: "SAMSUNG", promo: false },
+            { id: 13, name: "Samsung Galaxy A04s", price: "99€", brand: "SAMSUNG", promo: false },
+            { id: 14, name: "Samsung Galaxy A07", price: "95€", brand: "SAMSUNG", promo: true },
+            { id: 15, name: "Samsung Galaxy A03", price: "85€", brand: "SAMSUNG", promo: false },
+            { id: 16, name: "Honor 200 Lite", price: "199€", brand: "HONOR", promo: true },
+            { id: 17, name: "Honor X8b", price: "179€", brand: "HONOR", promo: false },
+            { id: 18, name: "Honor 90 Smart 5G", price: "149€", brand: "HONOR", promo: false },
+            { id: 19, name: "Honor X6", price: "119€", brand: "HONOR", promo: false },
+            { id: 20, name: "Redmi Note 13 Pro 5G", price: "259€", brand: "XIAOMI", promo: false },
+            { id: 21, name: "Redmi Note 13", price: "169€", brand: "XIAOMI", promo: true },
+            { id: 22, name: "Redmi 13C", price: "109€", brand: "XIAOMI", promo: false },
+            { id: 23, name: "Redmi A3", price: "89€", brand: "XIAOMI", promo: false },
+            { id: 24, name: "Oppo A58", price: "159€", brand: "OPPO", promo: false },
+            { id: 25, name: "Oppo A38", price: "129€", brand: "OPPO", promo: false },
+            { id: 26, name: "Oppo A18", price: "109€", brand: "OPPO", promo: true },
+            { id: 27, name: "Logicom Le Kay", price: "29€", brand: "AUTRES", promo: false }
         ];
 
         const repairs = [
-            { name: "Écrans & Vitres Tactiles", desc: "Original ou Compatible haute qualité" },
-            { name: "Batteries haute capacité", desc: "Perte d'autonomie, gonflement" },
-            { name: "Connecteurs de charge", desc: "Le téléphone ne charge plus" },
-            { name: "Micro-soudure carte mère", desc: "Réparation composants invisibles" },
-            { name: "Déblocage de compte", desc: "Google, iCloud, Mot de passe oublié" },
-            { name: "Désoxydation complète", desc: "Téléphone tombé dans l'eau" }
+            { id: 'S1', name: "Écran iPhone / Samsung", detail: "45 min" },
+            { id: 'S2', name: "Batterie Origine", detail: "30 min" },
+            { id: 'S3', name: "Connecteur Charge", detail: "1h" },
+            { id: 'S4', name: "Déblocage Logiciel", detail: "Express" }
         ];
 
-        function switchTab(tab) {
-            const btnPhones = document.getElementById('tab-phones');
-            const btnRepair = document.getElementById('tab-repair');
-            const secPhones = document.getElementById('section-phones');
-            const secRepair = document.getElementById('section-repair');
+        let database = [];
+        let currentId = null;
+        let userRating = 0;
 
-            if (tab === 'PHONES') {
-                btnPhones.className = "flex-1 py-5 rounded-[2.5rem] font-black italic text-[11px] uppercase tracking-[0.2em] transition-all border bg-white text-black border-white shadow-xl scale-[1.02]";
-                btnRepair.className = "flex-1 py-5 rounded-[2.5rem] font-black italic text-[11px] uppercase tracking-[0.2em] transition-all border bg-zinc-950 text-white/40 border-white/5";
-                secPhones.classList.remove('hidden');
-                secRepair.classList.add('hidden');
+        const legalTexts = {
+            'MENTIONS LÉGALES': "GSM STORE MARSEILLE<br>Siège social : 180 Boulevard National, 13003 Marseille.<br>SIRET : 852 456 789 00012.<br>Numéro de TVA : FR 55 852 456 789.<br>Contact : 07 58 36 37 36.",
+            'POLITIQUE RGPD': "Nous respectons votre vie privée. Les avis postés sur ce site sont stockés localement. Aucune donnée nominative n'est transmise à des tiers.",
+            'CONDITIONS DE VENTE': "GSM STORE MARSEILLE propose la vente de terminaux mobiles et services de réparation. Les prix sont indiqués en Euros TTC. Les modalités de garantie sont disponibles directement en magasin lors de l'achat ou de la prestation."
+        };
+
+        function switchTab(tab) {
+            document.querySelectorAll('.main-section').forEach(s => s.classList.add('hidden'));
+            document.getElementById('section-'+tab).classList.remove('hidden');
+            document.querySelectorAll('button[id^="nav-"]').forEach(b => {
+                b.classList.remove('tab-active-white', 'tab-active-cyan');
+                b.classList.add('text-white/40');
+            });
+            const btn = document.getElementById('nav-'+tab);
+            btn.classList.add(tab === 'REPAIR' ? 'tab-active-cyan' : 'tab-active-white');
+        }
+
+        function openModal(title, id, isLegal = false) {
+            currentId = id;
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-app').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            if(isLegal) {
+                document.getElementById('review-form-area').classList.add('hidden');
+                document.getElementById('modal-reviews-list').classList.add('hidden');
+                document.getElementById('legal-text-area').classList.remove('hidden');
+                document.getElementById('legal-text-area').innerHTML = legalTexts[title];
             } else {
-                btnRepair.className = "flex-1 py-5 rounded-[2.5rem] font-black italic text-[11px] uppercase tracking-[0.2em] transition-all border bg-cyan-500 text-black border-cyan-500 shadow-xl scale-[1.02]";
-                btnPhones.className = "flex-1 py-5 rounded-[2.5rem] font-black italic text-[11px] uppercase tracking-[0.2em] transition-all border bg-zinc-950 text-white/40 border-white/5";
-                secPhones.classList.add('hidden');
-                secRepair.classList.remove('hidden');
+                document.getElementById('review-form-area').classList.remove('hidden');
+                document.getElementById('modal-reviews-list').classList.remove('hidden');
+                document.getElementById('legal-text-area').classList.add('hidden');
+                setStar(0);
+                renderReviews();
             }
         }
 
-        function filterBrand(brand) {
-            const btns = document.querySelectorAll('.brand-btn');
-            btns.forEach(btn => {
-                if (btn.innerText === brand) {
-                    btn.className = "brand-btn px-7 py-3.5 rounded-2xl text-[10px] font-black uppercase italic border transition-all shrink-0 bg-cyan-500 text-black border-cyan-500 shadow-md shadow-cyan-500/30";
-                } else {
-                    btn.className = "brand-btn px-7 py-3.5 rounded-2xl text-[10px] font-black uppercase italic border transition-all shrink-0 bg-zinc-900/50 text-white/40 border-white/5";
-                }
-            });
-            renderProducts(brand);
+        function closeModal() {
+            document.getElementById('modal-app').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            renderGrid();
+            renderRepairs();
+            updateHeader();
         }
 
-        function renderProducts(brand = 'TOUS') {
-            const list = document.getElementById('product-list');
-            list.innerHTML = '';
-            const filtered = brand === 'TOUS' ? inventory : inventory.filter(p => p.brand === brand);
-            
-            filtered.forEach(p => {
-                list.innerHTML += `
-                    <div onclick="window.location.href='tel:0758363736'" class="bg-zinc-900/40 border border-white/5 p-7 rounded-[2.5rem] flex justify-between items-center transition-all hover:bg-zinc-800/60 active:scale-[0.98] cursor-pointer">
-                        <div class="flex items-center gap-6">
-                            <div class="w-1.5 h-12 rounded-full ${p.promo ? 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.3)]' : 'bg-cyan-500'}"></div>
-                            <div>
-                                <span class="text-[8px] font-black text-cyan-400/60 uppercase tracking-[0.3em] italic">${p.brand}</span>
-                                <h2 class="text-xl font-black uppercase italic tracking-tighter text-white leading-none mt-1">${p.name}</h2>
-                                <p class="text-[9px] font-bold opacity-30 uppercase mt-2 italic">Garantie 6 mois</p>
+        function showLegal(type) {
+            openModal(type, 'LEGAL', true);
+        }
+
+        function renderGrid(brand = 'TOUS') {
+            const grid = document.getElementById('grid-phones');
+            grid.innerHTML = '';
+            const list = brand === 'TOUS' ? phones : phones.filter(p => p.brand === brand);
+            list.forEach(p => {
+                const count = database.filter(r => r.targetId === p.id).length;
+                grid.innerHTML += `
+                    <div onclick="openModal('${p.name}', ${p.id})" class="product-card bg-zinc-900/40 border border-white/5 p-6 rounded-[2rem] flex justify-between items-center animate-fade">
+                        <div class="flex items-center gap-5">
+                            <div class="w-1 h-10 rounded-full ${p.promo ? 'bg-red-500 shadow-lg' : 'bg-cyan-500'}"></div>
+                            <div class="text-left">
+                                <span class="text-[7px] font-black text-cyan-400 opacity-60 uppercase tracking-widest italic">${p.brand}</span>
+                                <h2 class="text-base font-black uppercase italic tracking-tighter leading-none">${p.name}</h2>
+                                <p class="text-[7px] opacity-20 font-black mt-2 italic">${count} AVIS CLIENTS</p>
                             </div>
                         </div>
-                        <div class="text-right font-black italic tracking-tighter text-3xl">${p.price}</div>
-                    </div>
-                `;
+                        <div class="text-xl font-black italic tracking-tighter">${p.price}</div>
+                    </div>`;
             });
         }
 
         function renderRepairs() {
-            const list = document.getElementById('repair-list');
-            list.innerHTML = '';
-            repairs.forEach(r => {
-                list.innerHTML += `
-                    <div class="bg-zinc-900/30 border border-white/5 p-6 rounded-[2.5rem] flex justify-between items-center">
-                        <div class="flex flex-col">
-                            <span class="font-black italic uppercase text-sm tracking-tight">${r.name}</span>
-                            <span class="text-[9px] opacity-40 uppercase font-bold mt-1 tracking-wider">${r.desc}</span>
+            const grid = document.getElementById('grid-repairs');
+            grid.innerHTML = '';
+            repairs.forEach(s => {
+                const count = database.filter(r => r.targetId === s.id).length;
+                grid.innerHTML += `
+                    <div onclick="openModal('${s.name}', '${s.id}')" class="product-card bg-zinc-900/40 border border-white/5 p-7 rounded-[2rem] flex justify-between items-center">
+                        <div class="text-left">
+                            <h2 class="text-sm font-black uppercase italic tracking-tighter leading-none">${s.name}</h2>
+                            <p class="text-[8px] opacity-30 mt-1 uppercase italic">${s.detail}</p>
+                            <p class="text-[7px] font-black text-cyan-400 mt-4 italic">${count} AVIS SERVICE</p>
                         </div>
-                        <a href="tel:0758363736" class="flex items-center gap-2 bg-white/5 px-4 py-2.5 rounded-2xl border border-white/10 active:scale-95 transition-all">
-                            <span class="text-white font-black italic text-[8px] uppercase tracking-widest">DEVIS</span>
-                            <svg class="w-3 h-3 text-cyan-400" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
-                        </a>
-                    </div>
-                `;
+                        <div class="text-[8px] font-black italic opacity-20 uppercase">Noter</div>
+                    </div>`;
             });
         }
 
-        window.onload = () => {
-            renderProducts();
-            renderRepairs();
-        };
+        function setStar(n) {
+            userRating = n;
+            document.querySelectorAll('.star-btn').forEach((s, i) => s.style.color = (i < n) ? '#fbbf24' : '#111827');
+        }
+
+        function submitReview() {
+            const name = document.getElementById('inp-name').value;
+            const text = document.getElementById('inp-text').value;
+            if(!name || !text || userRating === 0) return;
+            database.push({ targetId: currentId, name, text, rating: userRating });
+            renderReviews();
+            document.getElementById('inp-name').value = '';
+            document.getElementById('inp-text').value = '';
+            setStar(0);
+        }
+
+        function renderReviews() {
+            const list = document.getElementById('modal-reviews-list');
+            const items = database.filter(r => r.targetId === currentId);
+            if(items.length === 0) {
+                list.innerHTML = `<div class="text-center py-10 opacity-20 text-[9px] uppercase font-black italic tracking-widest">Aucun avis pour l'instant</div>`;
+                return;
+            }
+            list.innerHTML = items.map(r => `
+                <div class="bg-zinc-900/60 p-5 rounded-3xl border border-white/5 animate-fade">
+                    <div class="flex justify-between mb-2">
+                        <p class="font-black italic uppercase text-[10px] text-cyan-400">${r.name}</p>
+                        <p class="text-[8px] star-gold">${'★'.repeat(r.rating)}</p>
+                    </div>
+                    <p class="text-[10px] opacity-60 italic font-medium">"${r.text}"</p>
+                </div>
+            `).join('');
+        }
+
+        function updateHeader() {
+            const total = database.length;
+            document.getElementById('total-reviews-count').innerText = `${total} AVIS TOTAL`;
+            if(total > 0) document.getElementById('total-stars-header').className = "star-gold text-[10px]";
+        }
+
+        function filterBrand(brand) {
+            document.querySelectorAll('.brand-btn').forEach(b => {
+                b.className = b.innerText.includes(brand)
+                    ? "brand-btn bg-cyan-500 text-black px-6 py-3 rounded-xl text-[9px] font-black uppercase italic shrink-0"
+                    : "brand-btn bg-zinc-900/50 text-white/40 px-6 py-3 rounded-xl text-[9px] font-black uppercase italic shrink-0 border border-white/10";
+            });
+            renderGrid(brand);
+        }
+
+        window.onload = () => { renderGrid(); renderRepairs(); };
     </script>
 </body>
 </html>
