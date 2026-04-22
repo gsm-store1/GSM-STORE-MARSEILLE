@@ -1,0 +1,251 @@
+import React, { useState } from 'react';
+
+const App = () => {
+  const [filter, setFilter] = useState('TOUS');
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [activeTab, setActiveTab] = useState('PHONES');
+  const [showLegal, setShowLegal] = useState(false);
+
+  // BASE DE DONNÉES COMPLÈTE (Tarifs vérifiés sur photos)
+  const inventory = [
+    { id: 1, name: "Samsung Galaxy S25", price: "579€", brand: "SAMSUNG", specs: "Neuf - Garantie 6 mois", promo: true },
+    { id: 2, name: "Samsung Galaxy S24 Ultra", price: "689€", brand: "SAMSUNG", specs: "Titane - Garantie 6 mois", promo: false },
+    { id: 3, name: "Samsung Galaxy S24 FE", price: "389€", brand: "SAMSUNG", specs: "8/128 Go - Garantie 6 mois", promo: true },
+    { id: 4, name: "Samsung Galaxy A55 5G", price: "319€", brand: "SAMSUNG", specs: "256 Go - Garantie 6 mois", promo: false },
+    { id: 5, name: "Samsung Galaxy A35 5G", price: "249€", brand: "SAMSUNG", specs: "128 Go - Garantie 6 mois", promo: false },
+    { id: 6, name: "Samsung Galaxy A25 5G", price: "219€", brand: "SAMSUNG", specs: "AMOLED - Garantie 6 mois", promo: false },
+    { id: 7, name: "Redmi Note 13 Pro 5G", price: "259€", brand: "XIAOMI", specs: "200MP - Garantie 6 mois", promo: false },
+    { id: 8, name: "Honor 200 Lite", price: "199€", brand: "HONOR", specs: "256 Go - Garantie 6 mois", promo: true },
+    { id: 9, name: "Honor X8b", price: "179€", brand: "HONOR", specs: "Ultra-mince - Garantie 6 mois", promo: false },
+    { id: 10, name: "Redmi Note 13", price: "169€", brand: "XIAOMI", specs: "Garantie 6 mois", promo: true },
+    { id: 11, name: "Samsung Galaxy M15 5G", price: "169€", brand: "SAMSUNG", specs: "6000mAh - Garantie 6 mois", promo: true },
+    { id: 12, name: "Samsung Galaxy A16 5G", price: "159€", brand: "SAMSUNG", specs: "Garantie 6 mois", promo: false },
+    { id: 13, name: "Oppo A58", price: "159€", brand: "OPPO", specs: "128 Go - Garantie 6 mois", promo: false },
+    { id: 14, name: "Honor 90 Smart 5G", price: "149€", brand: "HONOR", specs: "Garantie 6 mois", promo: false },
+    { id: 15, name: "Samsung Galaxy A15", price: "139€", brand: "SAMSUNG", specs: "Garantie 6 mois", promo: false },
+    { id: 16, name: "Oppo A38", price: "129€", brand: "OPPO", specs: "Garantie 6 mois", promo: false },
+    { id: 17, name: "Samsung Galaxy A05s", price: "129€", brand: "SAMSUNG", specs: "Garantie 6 mois", promo: false },
+    { id: 18, name: "Samsung Galaxy A06", price: "119€", brand: "SAMSUNG", specs: "Garantie 6 mois", promo: false },
+    { id: 19, name: "Oppo A18", price: "109€", brand: "OPPO", specs: "Garantie 6 mois", promo: true },
+    { id: 20, name: "Samsung Galaxy A05", price: "109€", brand: "SAMSUNG", specs: "Garantie 6 mois", promo: false },
+    { id: 21, name: "Redmi 13C", price: "109€", brand: "XIAOMI", specs: "Garantie 6 mois", promo: false },
+    { id: 22, name: "Samsung Galaxy A07", price: "95€", brand: "SAMSUNG", specs: "Garantie 6 mois", promo: true },
+    { id: 23, name: "Redmi A3", price: "89€", brand: "XIAOMI", specs: "Garantie 6 mois", promo: false },
+    { id: 24, name: "Logicom Le Kay", price: "29€", brand: "AUTRES", specs: "Clavier - Garantie 6 mois", promo: false }
+  ];
+
+  const categories = ['TOUS', 'SAMSUNG', 'HONOR', 'XIAOMI', 'OPPO', 'AUTRES'];
+
+  return (
+    <div className="min-h-screen bg-[#020202] text-white font-sans pb-44 selection:bg-cyan-500 selection:text-black">
+      {/* BARRE DE STATUT & HEADER */}
+      <header className="sticky top-0 z-50 bg-black/95 backdrop-blur-xl border-b border-white/5 shadow-2xl">
+        <div className="max-w-2xl mx-auto p-6">
+          <div className="flex justify-between items-start">
+            <div className="animate-in fade-in slide-in-from-left-4 duration-700">
+              <h1 className="text-4xl font-black italic text-cyan-400 tracking-tighter uppercase leading-none">GSM STORE</h1>
+              <p className="text-[10px] font-bold opacity-40 uppercase tracking-[0.4em] mt-2 italic">180 Boulevard National, Marseille</p>
+            </div>
+            <div className="text-right flex flex-col items-end gap-2 animate-in fade-in slide-in-from-right-4 duration-700">
+                <span className="bg-cyan-500 text-black px-3 py-1 rounded-lg text-[10px] font-black uppercase italic tracking-widest shadow-[0_0_15px_rgba(6,182,212,0.4)]">Ouvert</span>
+                <p className="text-[9px] font-black uppercase opacity-30 tracking-widest">Expertise 13003</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* NAVIGATION TABS */}
+      <div className="max-w-2xl mx-auto p-4 flex gap-4 mt-2">
+        <button 
+          onClick={() => setActiveTab('PHONES')}
+          className={`flex-1 py-5 rounded-[2rem] font-black italic text-xs uppercase tracking-[0.2em] transition-all duration-300 border ${activeTab === 'PHONES' ? 'bg-white text-black border-white scale-[1.02] shadow-xl' : 'bg-zinc-950 text-white/40 border-white/5'}`}
+        >
+          Boutique
+        </button>
+        <button 
+          onClick={() => setActiveTab('REPAIR')}
+          className={`flex-1 py-5 rounded-[2rem] font-black italic text-xs uppercase tracking-[0.2em] transition-all duration-300 border ${activeTab === 'REPAIR' ? 'bg-cyan-500 text-black border-cyan-500 scale-[1.02] shadow-xl shadow-cyan-500/20' : 'bg-zinc-950 text-white/40 border-white/5'}`}
+        >
+          Réparation
+        </button>
+      </div>
+
+      {activeTab === 'PHONES' ? (
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          {/* FILTRES MARQUES */}
+          <nav className="p-4 flex gap-2 overflow-x-auto no-scrollbar max-w-2xl mx-auto scroll-smooth">
+            {categories.map(cat => (
+              <button 
+                key={cat}
+                onClick={() => setFilter(cat)}
+                className={`px-7 py-3.5 rounded-2xl text-[10px] font-black uppercase italic border transition-all shrink-0 ${
+                  filter === cat ? 'bg-cyan-500 text-black border-cyan-500 shadow-lg shadow-cyan-500/20' : 'bg-zinc-900/50 text-white/40 border-white/5'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </nav>
+
+          {/* LISTE PRODUITS */}
+          <main className="p-4 max-w-2xl mx-auto space-y-4">
+            <div className="flex justify-between px-2 mb-4">
+               <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400/50 italic">Stock Disponible</span>
+               <span className="text-[9px] font-black uppercase tracking-widest text-white/20 italic">{inventory.length} Modèles</span>
+            </div>
+            
+            {inventory.filter(p => filter === 'TOUS' || p.brand === filter).map(item => (
+              <div 
+                key={item.id}
+                onClick={() => setSelectedProduct(item)}
+                className="group relative bg-zinc-900/40 border border-white/5 p-7 rounded-[2.5rem] flex justify-between items-center transition-all hover:bg-zinc-800/60 active:scale-[0.98] cursor-pointer overflow-hidden shadow-sm"
+              >
+                {item.promo && (
+                  <div className="absolute top-0 right-0 bg-red-600 text-white text-[7px] font-black uppercase px-5 py-1.5 rounded-bl-2xl italic tracking-widest shadow-lg">
+                    TOP PRIX
+                  </div>
+                )}
+                <div className="flex items-center gap-6">
+                  <div className={`w-1.5 h-12 rounded-full ${item.promo ? 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.4)]' : 'bg-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.3)]'}`} />
+                  <div>
+                    <span className="text-[8px] font-black text-cyan-400/60 uppercase tracking-[0.3em] italic">{item.brand}</span>
+                    <h2 className="text-xl font-black uppercase italic tracking-tighter text-white leading-none mt-1 group-hover:text-cyan-400 transition-colors">{item.name}</h2>
+                    <p className="text-[9px] font-bold opacity-30 uppercase mt-2 italic tracking-wider">Garantie 6 mois</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-3xl font-black italic tracking-tighter text-white">{item.price}</div>
+                </div>
+              </div>
+            ))}
+          </main>
+        </div>
+      ) : (
+        <main className="p-4 max-w-2xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="bg-zinc-900/60 border border-cyan-500/20 p-10 rounded-[3rem] text-center shadow-2xl relative overflow-hidden">
+             <div className="absolute -top-10 -right-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl"></div>
+             <h3 className="text-3xl font-black italic uppercase tracking-tighter leading-none">Réparation Express</h3>
+             <p className="text-cyan-400 text-[11px] font-black uppercase mt-3 tracking-[0.4em] italic underline underline-offset-8 decoration-2">30 Minutes Chrono</p>
+             
+             <div className="mt-10 grid grid-cols-2 gap-3 text-left">
+                {['Écran', 'Batterie', 'Connecteur', 'Caméra', 'Déblocage', 'Logiciel'].map((s, idx) => (
+                  <div key={idx} className="bg-black/40 p-4 rounded-2xl border border-white/5 flex items-center gap-3">
+                     <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full"></div>
+                     <span className="text-[10px] font-black uppercase italic tracking-widest">{s}</span>
+                  </div>
+                ))}
+             </div>
+
+             <div className="mt-10 py-5 bg-cyan-500 text-black rounded-3xl font-black italic uppercase text-xs tracking-[0.2em] shadow-xl">
+                Garantie 6 Mois incluse
+             </div>
+          </div>
+          
+          <div className="bg-white/5 border border-white/5 p-8 rounded-[3rem]">
+             <h4 className="text-[10px] font-black uppercase tracking-[0.3em] opacity-30 italic mb-6">Expertise Certifiée</h4>
+             <p className="text-sm text-white/70 italic leading-relaxed">
+                Toutes nos réparations sont effectuées avec des pièces de haute qualité au **180 Boulevard National**. 
+                Chaque intervention est testée devant vous pour une transparence totale.
+             </p>
+          </div>
+        </main>
+      )}
+
+      {/* MODAL FICHE PRODUIT */}
+      {selectedProduct && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/98 backdrop-blur-xl animate-in fade-in duration-300" onClick={() => setSelectedProduct(null)}></div>
+          <div className="relative bg-zinc-950 w-full max-w-md rounded-[4rem] border border-white/10 p-10 shadow-2xl animate-in zoom-in-95 slide-in-from-bottom-8 duration-300">
+            <button onClick={() => setSelectedProduct(null)} className="absolute top-10 right-10 text-white/30 text-2xl p-2 hover:text-white transition-colors">✕</button>
+            
+            <div className="text-center mt-6">
+               <span className="text-cyan-400 text-[10px] font-black uppercase tracking-[0.4em] italic">{selectedProduct.brand}</span>
+               <h3 className="text-4xl font-black uppercase italic tracking-tighter leading-none mt-3">{selectedProduct.name}</h3>
+               <div className="h-[2px] w-12 bg-cyan-500/20 mx-auto my-8 rounded-full" />
+               <p className="text-6xl font-black text-white italic tracking-tighter leading-none">{selectedProduct.price}</p>
+               
+               <div className="mt-10 space-y-3">
+                 <div className="bg-green-500/10 text-green-500 py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] italic border border-green-500/20">
+                   ✓ Garantie 6 Mois Incluse
+                 </div>
+                 <div className="bg-zinc-900/50 text-white/40 py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] italic border border-white/5">
+                   En Stock - 180 National
+                 </div>
+               </div>
+            </div>
+            
+            <a href="tel:0758363736" className="block w-full bg-white text-black text-center font-black uppercase italic py-6 rounded-3xl text-xs tracking-[0.2em] mt-10 active:scale-95 transition-all shadow-xl">
+               Réserver ou Appeler
+            </a>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL MENTIONS LÉGALES */}
+      {showLegal && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/99" onClick={() => setShowLegal(false)}></div>
+          <div className="relative bg-zinc-950 w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-[3.5rem] border border-white/10 p-12 shadow-2xl no-scrollbar animate-in slide-in-from-bottom-10">
+            <div className="flex justify-between items-center mb-12">
+                <h2 className="text-3xl font-black italic uppercase tracking-tighter text-cyan-400">Mentions Légales</h2>
+                <button onClick={() => setShowLegal(false)} className="text-white/40 bg-zinc-900 p-4 rounded-full text-xl">✕</button>
+            </div>
+            
+            <div className="space-y-10 text-white/50 text-[12px] font-medium leading-relaxed">
+                <section className="bg-white/5 p-8 rounded-3xl border border-white/5">
+                    <h3 className="text-white font-black uppercase tracking-[0.2em] mb-4 text-[13px] italic">1. Établissement</h3>
+                    <p className="font-bold text-white/80">GSM STORE MARSEILLE</p>
+                    <p className="mt-2">180 Boulevard National<br/>13003 Marseille, France</p>
+                    <p className="mt-2 text-cyan-400 font-bold">Contact : 07 58 36 37 36</p>
+                </section>
+                
+                <section>
+                    <h3 className="text-white font-black uppercase tracking-widest mb-4 text-[13px] italic">2. Garanties sur Téléphones</h3>
+                    <p>Tout appareil mobile (neuf ou occasion) vendu par GSM STORE bénéficie d'une **garantie contractuelle de 6 mois**. Cette garantie couvre les dysfonctionnements internes du matériel. Sont exclus : bris d'écran, dommages liquides (oxydation), et dommages causés par une mauvaise manipulation.</p>
+                </section>
+
+                <section>
+                    <h3 className="text-white font-black uppercase tracking-widest mb-4 text-[13px] italic">3. Garanties Réparations</h3>
+                    <p>Nos interventions techniques sont garanties **6 mois** (pièces et main d'œuvre). La garantie s'applique uniquement sur la pièce remplacée par nos soins. Toute intervention tiers après notre passage annule cette garantie.</p>
+                </section>
+
+                <section>
+                    <h3 className="text-white font-black uppercase tracking-widest mb-4 text-[13px] italic">4. Transparence de l'Information</h3>
+                    <p>Ce site web est une vitrine informative. Les prix affichés sont ceux pratiqués en magasin au 180 Boulevard National. Nous nous efforçons de maintenir ces données à jour quotidiennement.</p>
+                </section>
+
+                <div className="pt-8 border-t border-white/5 opacity-20 text-center italic">
+                    <p>© 2024 GSM STORE - Réalisation Boutique Marseille 13003.</p>
+                </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* FOOTER PERSISTANT */}
+      <footer className="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black via-black/95 to-transparent z-[80]">
+        <div className="max-w-md mx-auto space-y-4">
+          <a href="tel:0758363736" className="flex items-center justify-between bg-white text-black h-20 px-10 rounded-[2.5rem] shadow-[0_15px_40px_rgba(255,255,255,0.15)] active:scale-95 transition-all duration-300">
+            <div className="flex flex-col items-start leading-none">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40 mb-1 italic">GSM STORE MARSEILLE</p>
+              <p className="text-2xl font-black italic uppercase tracking-tighter leading-none">07 58 36 37 36</p>
+            </div>
+            <div className="bg-cyan-500 text-black p-4 rounded-2xl shadow-lg">
+                <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
+            </div>
+          </a>
+          <div className="flex justify-center">
+            <button 
+              onClick={() => setShowLegal(true)}
+              className="text-[9px] font-black uppercase tracking-[0.4em] opacity-20 hover:opacity-100 hover:text-cyan-400 transition-all py-2"
+            >
+              Mentions Légales • Garanties
+            </button>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
