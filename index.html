@@ -37,12 +37,12 @@
 
     <!-- NAVIGATION -->
     <div class="max-w-2xl mx-auto p-4 flex gap-3 mt-4">
-        <button id="nav-PHONES" onclick="switchTab('PHONES')" class="tab-active-white flex-1 py-5 rounded-[2rem] font-black italic text-[10px] uppercase tracking-widest transition-all border border-white/10 bg-zinc-900/50">Vente</button>
+        <button id="nav-PHONES" onclick="switchTab('PHONES')" class="tab-active-white flex-1 py-5 rounded-[2rem] font-black italic text-[10px] uppercase tracking-widest transition-all border border-white/10 bg-zinc-900/50">Boutique</button>
         <button id="nav-REPAIR" onclick="switchTab('REPAIR')" class="flex-1 py-5 rounded-[2rem] font-black italic text-[10px] uppercase tracking-widest transition-all border border-white/10 bg-zinc-900/50 text-white/40">Réparation</button>
         <button id="nav-REVIEWS" onclick="switchTab('REVIEWS')" class="flex-1 py-5 rounded-[2rem] font-black italic text-[10px] uppercase tracking-widest transition-all border border-white/10 bg-zinc-900/50 text-white/40">Livre d'or</button>
     </div>
 
-    <!-- CATALOGUE DES 27 TÉLÉPHONES -->
+    <!-- CATALOGUE VENTE -->
     <section id="section-PHONES" class="main-section max-w-2xl mx-auto">
         <nav class="p-4 flex gap-2 overflow-x-auto no-scrollbar">
             <button onclick="filterBrand('TOUS')" class="brand-btn bg-cyan-500 text-black px-6 py-3 rounded-xl text-[9px] font-black uppercase italic shrink-0">TOUS (27)</button>
@@ -54,35 +54,38 @@
         <div id="grid-phones" class="p-4 space-y-3"></div>
     </section>
 
-    <!-- RÉPARATION -->
+    <!-- RÉPARATION (RDV EN PREMIER) -->
     <section id="section-REPAIR" class="main-section hidden max-w-2xl mx-auto p-4">
+        <!-- HEADER RÉPARATION -->
         <div class="bg-zinc-900/20 border border-cyan-500/20 p-8 rounded-[3rem] mb-6 text-center">
-            <h3 class="text-2xl font-black italic uppercase tracking-tighter">Réparations Express</h3>
-            <p class="text-cyan-400 text-[9px] font-black uppercase mt-2 tracking-widest italic underline underline-offset-4">Qualité & Rapidité Marseille</p>
+            <h3 class="text-2xl font-black italic uppercase tracking-tighter">Atelier Toutes Marques</h3>
+            <p class="text-cyan-400 text-[10px] font-black uppercase mt-2 tracking-widest italic">Diagnostic & Devis en Boutique</p>
+            <p class="text-white/40 text-[9px] font-black uppercase mt-4 italic tracking-widest">🛡️ Garantie 6 mois certifiée</p>
         </div>
+
+        <!-- LISTE PRESTATIONS -->
         <div id="grid-repairs" class="space-y-3"></div>
     </section>
 
     <!-- LIVRE D'OR -->
     <section id="section-REVIEWS" class="main-section hidden max-w-2xl mx-auto p-4">
         <div class="bg-zinc-900/20 border border-white/10 p-8 rounded-[3rem] mb-6 text-center">
-            <h3 class="text-2xl font-black italic uppercase tracking-tighter">Avis Boutique</h3>
-            <button onclick="openModal('GSM STORE Marseille', 'GENERAL')" class="mt-6 w-full bg-white text-black py-4 rounded-2xl font-black italic uppercase text-[10px] tracking-widest">Écrire un message</button>
+            <h3 class="text-2xl font-black italic uppercase tracking-tighter">Votre avis compte</h3>
+            <button onclick="openModal('GSM STORE Marseille', 'GENERAL')" class="mt-6 w-full bg-white text-black py-4 rounded-2xl font-black italic uppercase text-[10px] tracking-widest">Écrire un témoignage</button>
         </div>
         <div id="site-reviews-list" class="space-y-4"></div>
     </section>
 
-    <!-- MODAL DYNAMIQUE (AVIS / LEGAL) -->
+    <!-- MODAL -->
     <div id="modal-app" class="fixed inset-0 z-[100] bg-black hidden overflow-y-auto">
         <div class="max-w-2xl mx-auto min-h-screen p-6 pb-40">
             <div class="flex justify-between items-center mb-10">
-                <button onclick="closeModal()" class="text-white/40 font-black italic text-xs uppercase tracking-widest">← Retour</button>
-                <h2 id="modal-title" class="text-xl font-black italic uppercase tracking-tighter text-cyan-400 text-right">TITRE</h2>
+                <button onclick="closeModal()" class="text-white/40 font-black italic text-xs uppercase tracking-widest">← Fermer</button>
+                <h2 id="modal-title" class="text-xl font-black italic uppercase tracking-tighter text-cyan-400 text-right leading-none">TITRE</h2>
             </div>
 
-            <!-- Zone Formulaire Avis -->
             <div id="review-form-area" class="bg-zinc-900/40 p-8 rounded-[2.5rem] border border-white/5 mb-10">
-                <p class="text-[10px] font-black uppercase tracking-[0.3em] mb-8 italic opacity-20 text-center">Laissez votre note</p>
+                <p class="text-[10px] font-black uppercase tracking-[0.3em] mb-8 italic opacity-20 text-center">Noter ce produit</p>
                 <div class="flex justify-center gap-4 mb-10">
                     <button onclick="setStar(1)" class="star-btn text-4xl text-zinc-800 transition-colors">★</button>
                     <button onclick="setStar(2)" class="star-btn text-4xl text-zinc-800 transition-colors">★</button>
@@ -90,15 +93,12 @@
                     <button onclick="setStar(4)" class="star-btn text-4xl text-zinc-800 transition-colors">★</button>
                     <button onclick="setStar(5)" class="star-btn text-4xl text-zinc-800 transition-colors">★</button>
                 </div>
-                <input type="text" id="inp-name" placeholder="VOTRE PRÉNOM" class="w-full bg-black/40 border border-white/5 p-4 rounded-xl text-[10px] uppercase font-bold mb-4 outline-none focus:border-cyan-500">
-                <textarea id="inp-text" placeholder="VOTRE MESSAGE..." class="w-full bg-black/40 border border-white/5 p-4 rounded-xl text-[10px] font-medium h-28 mb-6 outline-none focus:border-cyan-500"></textarea>
+                <input type="text" id="inp-name" placeholder="VOTRE NOM" class="w-full bg-black/40 border border-white/5 p-4 rounded-xl text-[10px] uppercase font-bold mb-4 outline-none focus:border-cyan-500">
+                <textarea id="inp-text" placeholder="MESSAGE..." class="w-full bg-black/40 border border-white/5 p-4 rounded-xl text-[10px] font-medium h-28 mb-6 outline-none focus:border-cyan-500"></textarea>
                 <button onclick="submitReview()" class="w-full bg-cyan-500 text-black py-5 rounded-2xl font-black italic uppercase text-[11px] tracking-[0.2em]">Publier</button>
             </div>
 
-            <!-- Zone Texte Légal -->
-            <div id="legal-text-area" class="hidden bg-zinc-900/20 p-8 rounded-[2rem] border border-white/5 text-[11px] leading-relaxed opacity-70 italic font-medium">
-                <!-- Texte injecté -->
-            </div>
+            <div id="legal-text-area" class="hidden bg-zinc-900/20 p-8 rounded-[2rem] border border-white/5 text-[11px] leading-relaxed opacity-70 italic font-medium"></div>
 
             <div id="modal-reviews-list" class="space-y-4 mt-6"></div>
         </div>
@@ -111,17 +111,16 @@
             <button onclick="showLegal('POLITIQUE RGPD')" class="text-[10px] font-black uppercase opacity-30 hover:opacity-100 italic tracking-[0.2em]">Confidentialité</button>
             <button onclick="showLegal('CONDITIONS DE VENTE')" class="text-[10px] font-black uppercase opacity-30 hover:opacity-100 italic tracking-[0.2em]">CGV</button>
         </div>
-        
-        <p class="text-[7px] opacity-10 uppercase font-black tracking-[0.4em]">GSM STORE MARSEILLE • SIRET 852 456 789 00012</p>
+        <p class="text-[7px] opacity-10 uppercase font-black tracking-[0.4em]">GSM STORE MARSEILLE • 180 BD NATIONAL • 13003 MARSEILLE</p>
     </footer>
 
-    <!-- BOUTON APPEL -->
+    <!-- BARRE D'APPEL FIXE -->
     <div class="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black via-black/80 z-[60]">
         <div class="max-w-md mx-auto">
             <a href="tel:0758363736" class="flex items-center justify-between bg-white text-black h-20 px-10 rounded-[2.5rem] shadow-2xl active:scale-95 transition-all">
-                <div class="text-left">
-                    <p class="text-[8px] font-black uppercase tracking-widest opacity-30 italic mb-1">BOUTIQUE MARSEILLE</p>
-                    <p class="text-2xl font-black italic uppercase tracking-tighter leading-none">07 58 36 37 36</p>
+                <div class="text-left leading-none">
+                    <p class="text-[8px] font-black uppercase tracking-widest opacity-30 italic mb-1">BOUTIQUE & ATELIER :</p>
+                    <p class="text-2xl font-black italic uppercase tracking-tighter">07 58 36 37 36</p>
                 </div>
                 <div class="bg-cyan-500 p-4 rounded-2xl text-black">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
@@ -162,10 +161,13 @@
         ];
 
         const repairs = [
-            { id: 'S1', name: "Écran iPhone / Samsung", detail: "45 min" },
-            { id: 'S2', name: "Batterie Origine", detail: "30 min" },
-            { id: 'S3', name: "Connecteur Charge", detail: "1h" },
-            { id: 'S4', name: "Déblocage Logiciel", detail: "Express" }
+            { id: 'RDV', name: "Prendre un rendez-vous", detail: "Fixer un créneau pour une intervention immédiate", price: "APPEL DIRECT", action: "tel" },
+            { id: 'S1', name: "Écrans (Toutes Marques)", detail: "Téléphones, smartphones et tablettes", price: "SUR DEVIS", action: "modal" },
+            { id: 'S2', name: "Batteries (Toutes Marques)", detail: "Remplacement avec garantie 6 mois", price: "SUR DEVIS", action: "modal" },
+            { id: 'S3', name: "Connecteurs de charge", detail: "Problèmes de charge ou faux contact", price: "SUR DEVIS", action: "modal" },
+            { id: 'S4', name: "Tablettes, iPad & PC", detail: "Réparation vitres et composants", price: "SUR DEVIS", action: "modal" },
+            { id: 'S5', name: "Micro-Soudure & Consoles", detail: "HDMI, Carte mère, Joycon, etc.", price: "SUR DEVIS", action: "modal" },
+            { id: 'S6', name: "Logiciel & Déblocage", detail: "Mise à jour et bugs système", price: "SUR DEVIS", action: "modal" }
         ];
 
         let database = [];
@@ -173,9 +175,9 @@
         let userRating = 0;
 
         const legalTexts = {
-            'MENTIONS LÉGALES': "GSM STORE MARSEILLE<br>Siège social : 180 Boulevard National, 13003 Marseille.<br>SIRET : 852 456 789 00012.<br>Numéro de TVA : FR 55 852 456 789.<br>Contact : 07 58 36 37 36.",
-            'POLITIQUE RGPD': "Nous respectons votre vie privée. Les avis postés sur ce site sont stockés localement. Aucune donnée nominative n'est transmise à des tiers.",
-            'CONDITIONS DE VENTE': "GSM STORE MARSEILLE propose la vente de terminaux mobiles et services de réparation. Les prix sont indiqués en Euros TTC. Les modalités de garantie sont disponibles directement en magasin lors de l'achat ou de la prestation."
+            'MENTIONS LÉGALES': "GSM STORE MARSEILLE<br>180 Boulevard National, 13003 Marseille.<br>SIRET : 852 456 789 00012.<br>Tél : 07 58 36 37 36.",
+            'POLITIQUE RGPD': "Avis anonymisés. Aucune donnée revendue à des tiers.",
+            'CONDITIONS DE VENTE': "Garantie 6 mois sur les ventes et réparations. Les rendez-vous sont fixés par téléphone ou en magasin."
         };
 
         function switchTab(tab) {
@@ -194,7 +196,6 @@
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-app').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
-            
             if(isLegal) {
                 document.getElementById('review-form-area').classList.add('hidden');
                 document.getElementById('modal-reviews-list').classList.add('hidden');
@@ -217,9 +218,7 @@
             updateHeader();
         }
 
-        function showLegal(type) {
-            openModal(type, 'LEGAL', true);
-        }
+        function showLegal(type) { openModal(type, 'LEGAL', true); }
 
         function renderGrid(brand = 'TOUS') {
             const grid = document.getElementById('grid-phones');
@@ -231,10 +230,13 @@
                     <div onclick="openModal('${p.name}', ${p.id})" class="product-card bg-zinc-900/40 border border-white/5 p-6 rounded-[2rem] flex justify-between items-center animate-fade">
                         <div class="flex items-center gap-5">
                             <div class="w-1 h-10 rounded-full ${p.promo ? 'bg-red-500 shadow-lg' : 'bg-cyan-500'}"></div>
-                            <div class="text-left">
-                                <span class="text-[7px] font-black text-cyan-400 opacity-60 uppercase tracking-widest italic">${p.brand}</span>
-                                <h2 class="text-base font-black uppercase italic tracking-tighter leading-none">${p.name}</h2>
-                                <p class="text-[7px] opacity-20 font-black mt-2 italic">${count} AVIS CLIENTS</p>
+                            <div class="text-left leading-none">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[7px] font-black text-cyan-400 opacity-60 uppercase tracking-widest italic">${p.brand}</span>
+                                    <span class="text-[6px] font-black text-white/30 uppercase italic tracking-tighter">Garantie 6m</span>
+                                </div>
+                                <h2 class="text-base font-black uppercase italic tracking-tighter mt-1">${p.name}</h2>
+                                <p class="text-[7px] opacity-20 font-black mt-2 italic">${count} AVIS</p>
                             </div>
                         </div>
                         <div class="text-xl font-black italic tracking-tighter">${p.price}</div>
@@ -247,14 +249,19 @@
             grid.innerHTML = '';
             repairs.forEach(s => {
                 const count = database.filter(r => r.targetId === s.id).length;
+                const clickAction = s.action === "tel" ? `window.location.href='tel:0758363736'` : `openModal('${s.name}', '${s.id}')`;
+                const isRdv = s.id === 'RDV';
+
                 grid.innerHTML += `
-                    <div onclick="openModal('${s.name}', '${s.id}')" class="product-card bg-zinc-900/40 border border-white/5 p-7 rounded-[2rem] flex justify-between items-center">
+                    <div onclick="${clickAction}" class="product-card ${isRdv ? 'bg-cyan-500 text-black border-none' : 'bg-zinc-900/40 border border-white/5'} p-7 rounded-[2rem] flex justify-between items-center transition-all">
                         <div class="text-left">
                             <h2 class="text-sm font-black uppercase italic tracking-tighter leading-none">${s.name}</h2>
-                            <p class="text-[8px] opacity-30 mt-1 uppercase italic">${s.detail}</p>
-                            <p class="text-[7px] font-black text-cyan-400 mt-4 italic">${count} AVIS SERVICE</p>
+                            <p class="text-[8px] ${isRdv ? 'text-black/60' : 'opacity-30'} mt-2 uppercase italic leading-none">${s.detail}</p>
+                            ${!isRdv ? `<p class="text-[7px] font-black text-cyan-400 mt-4 italic">${count} AVIS</p>` : ''}
                         </div>
-                        <div class="text-[8px] font-black italic opacity-20 uppercase">Noter</div>
+                        <div class="text-[9px] font-black italic tracking-tighter ${isRdv ? 'text-black' : 'opacity-60'} uppercase text-right leading-tight">
+                            ${s.price}<br>${!isRdv ? `<span class="text-[6px] opacity-40">Garantie 6m</span>` : ''}
+                        </div>
                     </div>`;
             });
         }
@@ -279,7 +286,7 @@
             const list = document.getElementById('modal-reviews-list');
             const items = database.filter(r => r.targetId === currentId);
             if(items.length === 0) {
-                list.innerHTML = `<div class="text-center py-10 opacity-20 text-[9px] uppercase font-black italic tracking-widest">Aucun avis pour l'instant</div>`;
+                list.innerHTML = `<div class="text-center py-10 opacity-20 text-[9px] uppercase font-black italic tracking-widest">Aucun message pour l'instant</div>`;
                 return;
             }
             list.innerHTML = items.map(r => `
@@ -296,7 +303,10 @@
         function updateHeader() {
             const total = database.length;
             document.getElementById('total-reviews-count').innerText = `${total} AVIS TOTAL`;
-            if(total > 0) document.getElementById('total-stars-header').className = "star-gold text-[10px]";
+            if(total > 0) {
+                document.getElementById('total-stars-header').className = "star-gold text-[10px]";
+                document.getElementById('total-stars-header').innerText = "★★★★★";
+            }
         }
 
         function filterBrand(brand) {
